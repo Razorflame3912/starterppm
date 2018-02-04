@@ -10,10 +10,14 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <math.h>
+
 #define INPUTSIZE 20
 
 int main(){
-  int i,j;
+  float i,j;
   float r,g,b;
   char input[INPUTSIZE];
   umask(0);
@@ -24,12 +28,12 @@ int main(){
   write(f,input,INPUTSIZE);
 
   for(i=0;i<500;i++){
-    r = (i/500)*256;
     for(j=0;j<500;j++){
       memset(input,0,INPUTSIZE);
-      g = (j/500)*256;
+      r = 256/(i/j);
+      g = (i/500)*256;
       b = (j/500)*256;
-      sprintf(input, "%d %d %d \n",r,g,b);
+      sprintf(input, "%d %d %d \n",(int)r,(int)g,(int)b);
       write(f,input,INPUTSIZE);
     }
   }
